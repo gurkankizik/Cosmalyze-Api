@@ -35,6 +35,36 @@ namespace Cosmalyze.Api.Controllers
             return product;
         }
 
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Product>>> SearchProducts([FromQuery] string name, [FromQuery] int? upc)
+        {
+            if (string.IsNullOrEmpty(name) && !upc.HasValue)
+            {
+                return BadRequest("At least one search query parameter must be provided.");
+            }
+
+            var query = _context.Products.Include(p => p.Category).Include(p => p.Brand).AsQueryable();
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(p => p.Name.Contains(name));
+            }
+
+            if (upc.HasValue)
+            {
+                query = query.Where(p => p.UPC == upc.Value);
+            }
+
+            var products = await query.ToListAsync();
+
+            if (products == null || products.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return products;
+        }
+
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
@@ -94,3 +124,5 @@ namespace Cosmalyze.Api.Controllers
         }
     }
 }
+
+
