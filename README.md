@@ -23,7 +23,7 @@ These instructions will help you set up and run the project on your local machin
 ## Installation
 
 1. Clone the repository:
-   git clone https://github.com/gurkankizik/Cosmalyze.Api.git cd Cosmalyze-Api
+   git clone https://github.com/gurkankizik/Cosmalyze-Api.git cd Cosmalyze.Api
 
 2. Restore the dependencies:
    dotnet restore
