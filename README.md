@@ -18,12 +18,12 @@ These instructions will help you set up and run the project on your local machin
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/)
-- A database (e.g., SQL Server, SQLite, etc.)
+- SQLite
 
 ## Installation
 
 1. Clone the repository:
-   git clone https://github.com/gurkankizik/Cosmalyze.Api.git cd Cosmalyze.Api
+   git clone https://github.com/gurkankizik/Cosmalyze.Api.git cd Cosmalyze-Api
 
 2. Restore the dependencies:
    dotnet restore
@@ -37,6 +37,12 @@ These instructions will help you set up and run the project on your local machin
 ## Usage
 
 The API provides endpoints to manage products, categories, and brands. You can use tools like [Postman](https://www.postman.com/) or [curl](https://curl.se/) to interact with the API.
+
+### Swagger UI
+
+You can also use the Swagger UI to explore and test the API endpoints. Once the application is running, open your web browser and navigate to:
+https://localhost:7249/swagger/index.html
+This will open the Swagger UI where you can see all available endpoints and interact with them directly from the browser.
 
 ## Endpoints
 
@@ -64,7 +70,3 @@ The API provides endpoints to manage products, categories, and brands. You can u
 - **Create a new brand**: `POST /api/brands`
 - **Update a brand**: `PUT /api/brands/{id}`
 - **Delete a brand**: `DELETE /api/brands/{id}`
-
-   
-   
-   
