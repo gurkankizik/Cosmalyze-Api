@@ -2,6 +2,7 @@
 using Cosmalyze.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cosmalyze.Api.Migrations
 {
     [DbContext(typeof(CosmalyzeDbContext))]
-    partial class CosmalyzeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241115121753_AddReviewData")]
+    partial class AddReviewData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -207,8 +210,9 @@ namespace Cosmalyze.Api.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Phone")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -229,7 +233,7 @@ namespace Cosmalyze.Api.Migrations
                             Email = "admin@mail.com",
                             Name = "Admin",
                             Password = "password",
-                            Phone = 123456789,
+                            Phone = "123456789",
                             Surname = "Test",
                             Username = "admin"
                         });
@@ -263,7 +267,7 @@ namespace Cosmalyze.Api.Migrations
                         .IsRequired();
 
                     b.HasOne("Cosmalyze.Api.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -271,6 +275,11 @@ namespace Cosmalyze.Api.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Cosmalyze.Api.Models.User", b =>
+                {
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

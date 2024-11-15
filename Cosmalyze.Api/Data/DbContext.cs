@@ -12,6 +12,8 @@ namespace Cosmalyze.Api.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,6 +32,16 @@ namespace Cosmalyze.Api.Data
                 .HasForeignKey(p => p.BrandId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.Product)
+                .WithMany()
+                .HasForeignKey(r => r.ProductId);
+
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.User)
+                .WithMany()
+                .HasForeignKey(r => r.UserId);
+
             // Seed data
             modelBuilder.Entity<Brand>().HasData(
                 new Brand { Id = 1, Name = "Brand A", IsAllVegan = true, IsPartialVegan = false, IsCruelty = true },
@@ -45,6 +57,36 @@ namespace Cosmalyze.Api.Data
                 new Product { Id = 1, Name = "Product A", Description = "Description A", CategoryId = 1, BrandId = 1, UPC = 123456, ImageUrl = "http://example.com/imageA.jpg" },
                 new Product { Id = 2, Name = "Product B", Description = "Description B", CategoryId = 2, BrandId = 2, UPC = 789012, ImageUrl = "http://example.com/imageB.jpg" }
             );
+
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    Id = 1,
+                    Name = "Admin",
+                    Surname = "Test",
+                    Username = "admin",
+                    Password = "password",
+                    Email = "admin@mail.com",
+                    Phone = 123456789
+                });
+
+            modelBuilder.Entity<Review>().HasData(
+                new Review
+                {
+                    Id = 1,
+                    ProductId = 1,
+                    UserId = 1,
+                    RatingValue = 4.5f,
+                    Comment = "Great product!"
+                },
+                new Review
+                {
+                    Id = 2,
+                    ProductId = 2,
+                    UserId = 1,
+                    RatingValue = 3.0f,
+                    Comment = "Average product."
+                });
         }
     }
 }
