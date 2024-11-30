@@ -48,25 +48,22 @@ This will open the Swagger UI where you can see all available endpoints and inte
 
 ### Products
 
-- **Get all products**: `GET /api/products`
-- **Get a product by ID**: `GET /api/products/{id}`
-- **Search products by name and/or UPC**: `GET /api/products/search?name={name}&upc={upc}`
-- **Create a new product**: `POST /api/products`
-- **Update a product**: `PUT /api/products/{id}`
-- **Delete a product**: `DELETE /api/products/{id}`
-
-### Categories
-
-- **Get all categories**: `GET /api/categories`
-- **Get a category by ID**: `GET /api/categories/{id}`
-- **Create a new category**: `POST /api/categories`
-- **Update a category**: `PUT /api/categories/{id}`
-- **Delete a category**: `DELETE /api/categories/{id}`
+- **GET /api/products**: Get all products.
+- **GET /api/products/{id}**: Get a product by ID.
+- **POST /api/products**: Create a new product.
+- **PUT /api/products/{id}**: Update an existing product.
+- **DELETE /api/products/{id}**: Delete a product by ID.
+- **GET /api/products/Search?name={searchTerm}**: Get a product by name.
 
 ### Brands
 
-- **Get all brands**: `GET /api/brands`
-- **Get a brand by ID**: `GET /api/brands/{id}`
-- **Create a new brand**: `POST /api/brands`
-- **Update a brand**: `PUT /api/brands/{id}`
-- **Delete a brand**: `DELETE /api/brands/{id}`
+- **GET /api/brands**: Get all brands.
+- **GET /api/brands/{id}**: Get a brand by ID.
+- **POST /api/brands**: Create a new brand.
+- **PUT /api/brands/{id}**: Update an existing brand.
+- **DELETE /api/brands/{id}**: Delete a brand by ID.
+- **GET /api/brands/Search?name={searchTerm}**: Get a brand by name.
+
+### Search
+
+- **GET /api/find?name={searchTerm}**: Search for products and brands by name. This endpoint returns a combined list of products and brands that match the search term.
