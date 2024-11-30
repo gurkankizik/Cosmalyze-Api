@@ -1,5 +1,4 @@
 ﻿using Cosmalyze.Api.Data;
-using Cosmalyze.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,86 +17,34 @@ namespace Cosmalyze.Api.Controllers
 
         // GET: api/find
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProductsAndBrands()
+        public async Task<ActionResult<IEnumerable<object>>> Search([FromQuery] string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                return BadRequest("Name parameter is required.");
+            }
+
             var products = await _context.Products
-                .Include(p => p.Brand)
-                .Include(p => p.Category)
+                .Where(p => p.Name.Contains(name) || p.Brand.Contains(name))
                 .ToListAsync();
 
-            return Ok(products);
-        }
+            var brands = await _context.Brands
+                .Where(b => b.Name.Contains(name))
+                .ToListAsync();
 
-        // GET: api/find/products
-        [HttpGet("products")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery] int? id, [FromQuery] string? name)
-        {
-            if (!id.HasValue && string.IsNullOrEmpty(name))
-            {
-                return BadRequest("At least one search parameter (id or name) must be provided.");
-            }
+            var results = new List<object>();
+            results.AddRange(products);
+            results.AddRange(brands);
 
-            var query = _context.Products.Include(p => p.Brand).Include(p => p.Category).AsQueryable();
-
-            if (id.HasValue)
-            {
-                query = query.Where(p => p.Id == id.Value);
-            }
-
-            if (!string.IsNullOrEmpty(name))
-            {
-                query = query.Where(p => p.Name.Contains(name));
-            }
-
-            var products = await query.ToListAsync();
-
-            if (products == null || products.Count == 0)
+            if (results.Count == 0)
             {
                 return NotFound();
             }
 
-            return Ok(products);
-        }
-
-        // GET: api/find/brands
-        [HttpGet("brands")]
-        public async Task<ActionResult<IEnumerable<Brand>>> GetBrands([FromQuery] int? id, [FromQuery] string? name)
-        {
-            if (!id.HasValue && string.IsNullOrEmpty(name))
-            {
-                return BadRequest("At least one search parameter (id or name) must be provided.");
-            }
-
-            var query = _context.Brands.AsQueryable();
-
-            if (id.HasValue)
-            {
-                query = query.Where(b => b.Id == id.Value);
-            }
-
-            if (!string.IsNullOrEmpty(name))
-            {
-                query = query.Where(b => b.Name.Contains(name));
-            }
-
-            var brands = await query.ToListAsync();
-
-            if (brands == null || brands.Count == 0)
-            {
-                return NotFound();
-            }
-
-            return Ok(brands);
+            return Ok(results);
         }
     }
 }
-
-
-
-
-
-
-
 
 
 

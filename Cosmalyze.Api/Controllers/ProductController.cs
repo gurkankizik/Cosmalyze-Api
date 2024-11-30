@@ -16,16 +16,18 @@ namespace Cosmalyze.Api.Controllers
             _context = context;
         }
 
+        // GET: api/Products
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return await _context.Products.Include(p => p.Category).Include(p => p.Brand).ToListAsync();
+            return await _context.Products.ToListAsync();
         }
 
+        // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await _context.Products.Include(p => p.Category).Include(p => p.Brand).FirstOrDefaultAsync(p => p.Id == id);
+            var product = await _context.Products.FindAsync(id);
 
             if (product == null)
             {
@@ -35,45 +37,26 @@ namespace Cosmalyze.Api.Controllers
             return product;
         }
 
-        [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<Product>>> SearchProducts([FromQuery] string? name, [FromQuery] int? upc)
+        // GET: api/Products/Search?name=productName
+        [HttpGet("Search")]
+        public async Task<ActionResult<IEnumerable<Product>>> SearchProducts(string name)
         {
-            if (string.IsNullOrEmpty(name) && !upc.HasValue)
-            {
-                return BadRequest("At least one search query parameter must be provided.");
-            }
-
-            var query = _context.Products.Include(p => p.Category).Include(p => p.Brand).AsQueryable();
-
-            if (!string.IsNullOrEmpty(name))
-            {
-                query = query.Where(p => p.Name.Contains(name));
-            }
-
-            if (upc.HasValue)
-            {
-                query = query.Where(p => p.UPC == upc.Value);
-            }
-
-            var products = await query.ToListAsync();
-
-            if (products == null || products.Count == 0)
-            {
-                return NotFound();
-            }
-
-            return products;
+            return await _context.Products
+                .Where(p => p.Name.Contains(name))
+                .ToListAsync();
         }
 
+        // POST: api/Products
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
+            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }
 
+        // PUT: api/Products/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
@@ -103,6 +86,7 @@ namespace Cosmalyze.Api.Controllers
             return NoContent();
         }
 
+        // DELETE: api/Products/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
@@ -124,5 +108,3 @@ namespace Cosmalyze.Api.Controllers
         }
     }
 }
-
-
