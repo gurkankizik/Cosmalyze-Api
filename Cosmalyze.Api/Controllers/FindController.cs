@@ -22,6 +22,7 @@ namespace Cosmalyze.Api.Controllers
         {
             var products = await _context.Products
                 .Include(p => p.Brand)
+                .Include(p => p.Category)
                 .ToListAsync();
 
             return Ok(products);
@@ -29,14 +30,14 @@ namespace Cosmalyze.Api.Controllers
 
         // GET: api/find/products
         [HttpGet("products")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery] int? id, [FromQuery] string name)
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery] int? id, [FromQuery] string? name)
         {
             if (!id.HasValue && string.IsNullOrEmpty(name))
             {
                 return BadRequest("At least one search parameter (id or name) must be provided.");
             }
 
-            var query = _context.Products.Include(p => p.Brand).AsQueryable();
+            var query = _context.Products.Include(p => p.Brand).Include(p => p.Category).AsQueryable();
 
             if (id.HasValue)
             {
@@ -60,7 +61,7 @@ namespace Cosmalyze.Api.Controllers
 
         // GET: api/find/brands
         [HttpGet("brands")]
-        public async Task<ActionResult<IEnumerable<Brand>>> GetBrands([FromQuery] int? id, [FromQuery] string name)
+        public async Task<ActionResult<IEnumerable<Brand>>> GetBrands([FromQuery] int? id, [FromQuery] string? name)
         {
             if (!id.HasValue && string.IsNullOrEmpty(name))
             {

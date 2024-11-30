@@ -36,7 +36,7 @@ namespace Cosmalyze.Api.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<Product>>> SearchProducts([FromQuery] string name, [FromQuery] int? upc)
+        public async Task<ActionResult<IEnumerable<Product>>> SearchProducts([FromQuery] string? name, [FromQuery] int? upc)
         {
             if (string.IsNullOrEmpty(name) && !upc.HasValue)
             {
