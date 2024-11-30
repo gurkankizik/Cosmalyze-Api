@@ -1,5 +1,4 @@
-﻿using Cosmalyze.Api.Helpers;
-using Cosmalyze.Api.Models;
+﻿using Cosmalyze.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cosmalyze.Api.Data
@@ -22,19 +21,19 @@ namespace Cosmalyze.Api.Data
 
         private void SeedBrands(ModelBuilder modelBuilder)
         {
-            var brands = JsonHelper.ReadBrandsFromJson("C:/Users/Gürkan/source/repos/Cosmalyze.Api/Cosmalyze.Api/Brands.json");
+            //var brands = JsonHelper.ReadBrandsFromJson("C:/Users/Gürkan/source/repos/Cosmalyze.Api/Cosmalyze.Api/Brands.json");
 
-            foreach (var brand in brands)
-            {
-                modelBuilder.Entity<Brand>().HasData(brand);
-            }
+            //foreach (var brand in brands)
+            //{
+            //    modelBuilder.Entity<Brand>().HasData(brand);
+            //}
 
-            var products = JsonHelper.ReadProductsFromJson("C:/Users/Gürkan/source/repos/Cosmalyze.Api/Cosmalyze.Api/Products.json");
+            //var products = JsonHelper.ReadProductsFromJson("C:/Users/Gürkan/source/repos/Cosmalyze.Api/Cosmalyze.Api/Products.json");
 
-            foreach (var product in products)
-            {
-                modelBuilder.Entity<Product>().HasData(product);
-            }
+            //foreach (var product in products)
+            //{
+            //    modelBuilder.Entity<Product>().HasData(product);
+            //}
         }
     }
 }
