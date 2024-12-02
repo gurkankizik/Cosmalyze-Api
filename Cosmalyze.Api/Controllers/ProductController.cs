@@ -41,9 +41,30 @@ namespace Cosmalyze.Api.Controllers
         [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<Product>>> SearchProducts(string name)
         {
-            return await _context.Products
+            var product = await _context.Products
                 .Where(p => p.Name.Contains(name))
                 .ToListAsync();
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return product;
+        }
+
+        // GET: api/Products/SearchByUPC?upc=productUPC
+        [HttpGet("SearchByUPC")]
+        public async Task<ActionResult<Product>> SearchProductByUPC(string upc)
+        {
+            var product = await _context.Products
+                .FirstOrDefaultAsync(p => p.UPC == upc);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return product;
         }
 
         // POST: api/Products
