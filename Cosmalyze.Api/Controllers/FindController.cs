@@ -45,6 +45,3 @@ namespace Cosmalyze.Api.Controllers
         }
     }
 }
-
-
-

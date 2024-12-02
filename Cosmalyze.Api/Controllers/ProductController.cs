@@ -82,7 +82,6 @@ namespace Cosmalyze.Api.Controllers
                     throw;
                 }
             }
-
             return NoContent();
         }
 

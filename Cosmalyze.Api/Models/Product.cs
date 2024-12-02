@@ -18,4 +18,3 @@
         public string? UPC { get; set; }
     }
 }
-

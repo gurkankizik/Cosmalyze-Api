@@ -26,9 +26,9 @@ namespace Cosmalyze.Api.Helpers
                     });
                 }
             }
-
             return brands;
         }
+
         public static List<Product> ReadProductsFromJson(string filePath)
         {
             var jsonString = File.ReadAllText(filePath);
@@ -57,11 +57,9 @@ namespace Cosmalyze.Api.Helpers
                         TagList = productJson.TagList?.Split(',').ToList(),
                         UPC = productJson.UPC
                     };
-
                     productList.Add(product);
                 }
             }
-
             return productList;
         }
     }
