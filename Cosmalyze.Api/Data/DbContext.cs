@@ -16,6 +16,10 @@ namespace Cosmalyze.Api.Data
         {
             modelBuilder.Entity<Brand>().HasKey(b => b.Id);
             modelBuilder.Entity<Product>().HasKey(p => p.Id);
+            modelBuilder.Entity<Product>()
+    .HasOne(p => p.BrandNavigation)
+    .WithMany()
+    .HasForeignKey(p => p.BrandId);
             SeedBrands(modelBuilder);
         }
 
