@@ -6,6 +6,6 @@
         public string Name { get; set; }
         public bool IsAllVegan { get; set; }
         public bool IsPartialVegan { get; set; }
-        public bool IsCruelty { get; set; }
+        public bool IsCrueltyFree { get; set; }
     }
 }

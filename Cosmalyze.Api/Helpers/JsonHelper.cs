@@ -22,7 +22,7 @@ namespace Cosmalyze.Api.Helpers
                         Name = kvp.Key,
                         IsAllVegan = bool.Parse(brandJson.IsAllVegan),
                         IsPartialVegan = bool.Parse(brandJson.IsPartialVegan),
-                        IsCruelty = bool.Parse(brandJson.IsCruelty)
+                        IsCrueltyFree = bool.Parse(brandJson.IsCrueltyFree)
                     });
                 }
             }
@@ -69,7 +69,7 @@ namespace Cosmalyze.Api.Helpers
         public string Id { get; set; }
         public string IsAllVegan { get; set; }
         public string IsPartialVegan { get; set; }
-        public string IsCruelty { get; set; }
+        public string IsCrueltyFree { get; set; }
     }
 
     public class ProductJsonModel
