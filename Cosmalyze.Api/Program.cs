@@ -1,5 +1,7 @@
 using Cosmalyze.Api.Data;
 using Microsoft.EntityFrameworkCore;
+using Cosmalyze.Api.Models;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<CosmalyzeDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<CosmalyzeDbContext>()
+    .AddDefaultTokenProviders();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -40,6 +46,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -47,3 +55,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+/*app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+});*/

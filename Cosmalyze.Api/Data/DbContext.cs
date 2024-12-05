@@ -1,9 +1,10 @@
 ﻿using Cosmalyze.Api.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Cosmalyze.Api.Data
 {
-    public class CosmalyzeDbContext : DbContext
+    public class CosmalyzeDbContext : IdentityDbContext<User>
     {
         public CosmalyzeDbContext(DbContextOptions<CosmalyzeDbContext> options) : base(options)
         {
@@ -14,6 +15,7 @@ namespace Cosmalyze.Api.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Brand>().HasKey(b => b.Id);
             modelBuilder.Entity<Product>().HasKey(p => p.Id);
             modelBuilder.Entity<Product>()
